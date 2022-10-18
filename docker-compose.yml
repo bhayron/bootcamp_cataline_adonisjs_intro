@@ -1,0 +1,21 @@
+version: "3"
+services:
+
+  db:
+    image: mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8 --collation-server=utf8_general_ci
+    expose:
+      - "3306"
+    ports:
+      - 3306:3306
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: secret123
+      MYSQL_USER: bhayron
+      MYSQL_PASSWORD: secret123
+      MYSQL_DATABASE: introdb
+
+    volumes:
+      - mysql:/var/lib/mysql
+volumes:
+  mysql:
