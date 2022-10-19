@@ -6,7 +6,7 @@ export default class AuthController {
     const token = await auth.attempt(email, password, {
       expiresIn: '30 days',
     })
-    return token
+    return { token }
   }
 
   public async destroy({ auth }: HttpContextContract) {
