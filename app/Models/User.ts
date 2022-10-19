@@ -13,6 +13,9 @@ export default class User extends BaseModel {
   public password: string
 
   @column()
+  public role: 'admin' | 'normal'
+
+  @column()
   public rememberMeToken?: string
 
   @column.dateTime({ autoCreate: true })
@@ -22,7 +25,7 @@ export default class User extends BaseModel {
   public updatedAt: DateTime
 
   @beforeSave()
-  public static async hashPassword (User: User) {
+  public static async hashPassword(User: User) {
     if (User.$dirty.password) {
       User.password = await Hash.make(User.password)
     }
