@@ -1,5 +1,7 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Post from 'App/Models/Post'
+import PostValidator from 'App/Validators/PostValidator'
+import UpdatePostValidator from 'App/Validators/UpdatePostValidator'
 
 export default class PostsController {
   public async index({}: HttpContextContract) {
@@ -8,7 +10,7 @@ export default class PostsController {
   }
 
   public async store({ request }: HttpContextContract) {
-    const data = request.only(['title', 'content'])
+    const data = await request.validate(PostValidator)
     const post = await Post.create(data)
     return post
   }
@@ -21,7 +23,7 @@ export default class PostsController {
 
   public async update({ params, request }: HttpContextContract) {
     const post = await Post.findOrFail(params.id)
-    const data = request.only(['title', 'content'])
+    const data = await request.validate(UpdatePostValidator)
     post.merge(data)
     await post.save()
   }
